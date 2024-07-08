@@ -3,7 +3,6 @@ package retrycommand
 import (
 	"context"
 	"fmt"
-	"os"
 	"os/exec"
 	"time"
 )
@@ -51,15 +50,15 @@ func RetryCommand(commandName string, commandArgs []string, opts ...RetryCommand
 		defer cancel()
 
 		cmd := exec.CommandContext(ctx, commandName, commandArgs...)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
+		//cmd.Stdout = os.Stdout
+		//cmd.Stderr = os.Stderr
 
 		err := cmd.Run()
 		if err == nil {
 			return nil
 		}
 
-		fmt.Printf("Attempt %d finished with error: %v\n", i, err)
+		fmt.Printf("\nAttempt %d finished with error: %v\n", i, err)
 		time.Sleep(config.TimeBetweenAttempts)
 	}
 	return err
